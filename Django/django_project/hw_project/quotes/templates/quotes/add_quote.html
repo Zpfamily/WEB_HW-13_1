@@ -1,0 +1,62 @@
+{% extends 'quotes/base.html' %}
+{% block content %}
+{% if messages %}
+<div>
+    {% for message in messages %}
+    <div role="alert"
+        class="text-center alert alert-primary {% if message.tags %} alert-{{ message.tags }} {% endif %}">{{ message }}
+    </div>
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+    <div role="alert" class="text-center alert alert-warning">{{ error }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+{% for error in form.non_field_errors %}
+<div>
+    <div role="alert" class="text-center alert alert-warning">{{ error }}</div>
+</div>
+{% endfor %}
+
+<div class="author-details">
+    <h3 class="author-title">Add quote</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="mb-3 mt-3">
+            <label for="id_fullname" class="form-label w-100">Enter the quote:
+                {{ form.quote }}
+            </label>
+            <span>{{ form.errors.quote }}</span>
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="id_author" class="form-label w-100">Select the author:
+                <select name="author">
+                    <option value="" >Select Author</option>
+                    {% for author in authors %}
+                        <option value="{{author.id}}" {% if author.id == form.author %} selected {% endif %}
+                        >{{author.fullname}}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <span>{{ form.errors.authors }}</span>
+        </div>
+        <div class="mb-3 mt-3">
+            <label> Select tags:
+                <select name="tags" multiple="multiple" required>
+                    {% for tag in tags %}
+                        <option value="{{tag.name}}" {% if tag in quotes_tags %} selected {% endif %}
+                        >{{tag.name}}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <span>{{ form.errors.tags }}</span>
+        </div>
+        
+        <div class="mb-3 text-center">
+            <button class="btn btn-primary" type="submit">Save</button>
+            <button class="btn btn-secondary" type="reset ">Reset</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

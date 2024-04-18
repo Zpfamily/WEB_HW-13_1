@@ -1,0 +1,38 @@
+{% extends 'quotes/base.html' %}
+{% block content %}
+{% if messages %}
+<div>
+    {% for message in messages %}
+    <div role="alert"
+        class="text-center alert alert-primary {% if message.tags %} alert-{{ message.tags }} {% endif %}">{{ message }}
+    </div>
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+    <div role="alert" class="text-center alert alert-warning">{{ error }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+{% for error in form.non_field_errors %}
+<div>
+    <div role="alert" class="text-center alert alert-warning">{{ error }}</div>
+</div>
+{% endfor %}
+
+<div class="author-details">
+    <h3 class="author-title">Add tag</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="mb-3 mt-3">
+            <label for="id_fullname" class="form-label w-100">Enter the tag name:
+                {{ form.name }}
+            </label>
+            <span>{{ form.errors.name }}</span>
+        </div>
+        <div class="mb-3 text-center">
+            <button class="btn btn-primary" type="submit">Save</button>
+            <button class="btn btn-secondary" type="reset ">Reset</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'quotes/base.html' %}
+{% load extract_tags %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md">
+        {% for quote in quotes %}
+         <div class="quote">
+            <span class="text" itemprop="text">{{ quote.quote }}</span>
+            <span>by <small class="author" itemprop="author">{{ quote.author}}</small>
+                <a href="{% url 'quotes:author' quote.author %}">(about)</a>
+            </span>
+            <div class="tags"> 
+                Tags: 
+                {% for tag in quote.tags.all %}
+                <a class="tag" href="{% url 'quotes:tag' tag %}">{{tag}}</a>
+                {% endfor %}
+
+            </div>
+        </div>
+        {% endfor %}
+        <nav>
+            <ul class="pager">
+                <li class="previous">
+                    <a title="Now is page {{ quotes.number }} of {{ quotes.paginator.num_pages }}"
+                    class="{% if not quotes.has_previous %} disabled {% endif %}"    
+                    href="{% if quotes.has_previous %}  
+                    {% url 'quotes:tag_paginate' tag_query quotes.previous_page_number %}  {% else %} # {% endif %}">
+                    <span aria-hidden="true">←</span> Previous</a>
+                </li>
+                <li class="next">
+                    <a title="Now is page {{ quotes.number }} of {{ quotes.paginator.num_pages }}"
+                    class="{% if not quotes.has_next %} disabled {% endif %}"    
+                    href="{% if quotes.has_next %}  
+                    {% url 'quotes:tag_paginate' tag_query quotes.next_page_number %}  {% else %} # {% endif %}">
+                        Next <span aria-hidden="true">→</span></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}

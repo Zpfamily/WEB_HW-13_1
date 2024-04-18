@@ -1,0 +1,55 @@
+{% extends 'quotes/base.html' %}
+{% block content %}
+{% if messages %}
+<div>
+    {% for message in messages %}
+    <div role="alert"
+        class="text-center alert alert-primary {% if message.tags %} alert-{{ message.tags }} {% endif %}">{{ message }}
+    </div>
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+    <div role="alert" class="text-center alert alert-warning">{{ error }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+{% for error in form.non_field_errors %}
+<div>
+    <div role="alert" class="text-center alert alert-warning">{{ error }}</div>
+</div>
+{% endfor %}
+<div class="author-details">
+    <h3 class="author-title">Add author</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="mb-3 mt-3">
+            <label for="id_fullname" class="form-label w-100">Full name:
+                {{ form.fullname }}
+            </label>
+            <span>{{ form.errors.fullname }}</span>
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="id_born_date" class="form-label w-100">Born Date:
+                {{ form.born_date }}
+            </label>
+            <span>{{ form.errors.born_date }}</span>
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="id_born_location" class="form-label w-100">Born Location:
+                {{ form.born_location }}
+            </label>
+            <span>{{ form.errors.born_location }}</span>
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="id_description" class="form-label w-100">Description:
+                {{ form.description }}
+            </label>
+            <span>{{ form.errors.description }}</span>
+        </div>
+        <div class="mb-3 text-center">
+            <button class="btn btn-primary" type="submit">Save</button>
+            <button class="btn btn-secondary" type="reset ">Reset</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
